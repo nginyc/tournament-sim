@@ -1,6 +1,18 @@
+import { Player } from "./player";
+import { Match } from "./match";
+
+enum Type {
+    ROUND_ROBIN
+}
+
 export class Tournament {
+    static Type = Type;
+
     _id?: string;
     name: string;
-    players: number[]; // Array of player ids
-    matches: number[]; // Array of Match ids
+    type: Type;
+    player_ids: number[];
+    players?: Player[];
+    match_ids: number[];
+    matches?: Match[];
 }
