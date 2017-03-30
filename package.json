@@ -2,17 +2,19 @@
   "name": "tournament-sim",
   "version": "0.0.0",
   "license": "MIT",
+  "angular-cli": {},
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "node server.js",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "tslint \"src/**/*.ts\"",
+    "e2e": "ng e2e",
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
     "@angular/common": "^4.0.0",
+    "@angular/cli": "1.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
@@ -20,12 +22,14 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "body-parser": "^1.17.1",
     "core-js": "^2.4.1",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.25",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "1.0.0",
     "@angular/compiler-cli": "^4.0.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
