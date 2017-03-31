@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Tournament } from "../tournament";
 import { TournamentService } from "../tournament.service";
-import { loca } from "@angular/common"
+import { Location } from "@angular/common"
 
 @Component({
   selector: 'tournaments-list',
