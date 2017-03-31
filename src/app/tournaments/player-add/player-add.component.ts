@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { TournamentService } from "../tournament.service";
-import { Player } from "../player";
 
 @Component({
   selector: 'player-add',
@@ -11,10 +10,10 @@ import { Player } from "../player";
 
 export class PlayerAddComponent implements OnInit {
 
-  player: Player;
+  player;
 
   @Output()
-  onAdded = new EventEmitter<Player>();
+  onAdded = new EventEmitter();
 
   constructor(private tournamentService: TournamentService) { }
 
@@ -23,12 +22,12 @@ export class PlayerAddComponent implements OnInit {
   }
 
   reload() {
-    this.player = new Player();
+    this.player = {};
   }
 
   onWantAdd() {
     this.tournamentService.createPlayer(this.player)
-      .then((player: Player) => {
+      .then((player) => {
         this.onAdded.emit(player);
         this.reload();
       });

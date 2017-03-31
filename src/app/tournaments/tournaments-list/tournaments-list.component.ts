@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Tournament } from "../tournament";
 import { TournamentService } from "../tournament.service";
 import { Location } from "@angular/common"
 
@@ -12,7 +11,7 @@ import { Location } from "@angular/common"
 
 export class TournamentsListComponent implements OnInit {
 
-  tournaments: Tournament[];
+  tournaments: any[];
 
   constructor(private tournamentService: TournamentService,
     private location: Location) { }
@@ -20,13 +19,13 @@ export class TournamentsListComponent implements OnInit {
   ngOnInit() {
     this.tournamentService
       .getTournaments()
-      .then((tournaments: Tournament[]) => {
+      .then((tournaments: any[]) => {
         this.tournaments = tournaments;
       });
   }
 
   onWantAdd($event: Event) {
-    location.assign("/tournaments/start");
+    location.assign("/tournament/start");
   }
 
 }

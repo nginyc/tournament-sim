@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Player } from "../player";
 import { TournamentService } from "../tournament.service";
 
 @Component({
@@ -11,7 +10,7 @@ import { TournamentService } from "../tournament.service";
 
 export class PlayersListComponent implements OnInit {
 
-  players: Player[];
+  players: any[];
   isAdding: boolean;
 
   constructor(private tournamentService: TournamentService) { }
@@ -23,7 +22,7 @@ export class PlayersListComponent implements OnInit {
   reload() {
     this.tournamentService
       .getPlayers()
-      .then((players: Player[]) => {
+      .then((players: any[]) => {
         this.players = players;
       });
   }

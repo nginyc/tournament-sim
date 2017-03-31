@@ -6,7 +6,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { AppRoutes } from "./app.routes";
 import { AppComponent } from './app.component';
 import { TournamentsListComponent } from './tournaments/tournaments-list/tournaments-list.component';
-import { TournamentStartComponent } from './tournaments/tournament-start/tournament-start.component';
+import { TournamentStartPageComponent } from './tournaments/tournament-start-page/tournament-start-page.component';
 import { PlayersListComponent } from './tournaments/players-list/players-list.component';
 import { PlayerAddComponent } from './tournaments/player-add/player-add.component';
 import { TournamentsPageComponent } from './tournaments/tournaments-page/tournaments-page.component';
@@ -15,7 +15,7 @@ import { TournamentsPageComponent } from './tournaments/tournaments-page/tournam
   declarations: [
     AppComponent,
     TournamentsListComponent,
-    TournamentStartComponent,
+    TournamentStartPageComponent,
     PlayersListComponent,
     PlayerAddComponent,
     TournamentsPageComponent

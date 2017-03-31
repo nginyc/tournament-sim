@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './tournaments-page.component.html',
   styleUrls: ['./tournaments-page.component.css']
 })
+
 export class TournamentsPageComponent implements OnInit {
 
   constructor() { }
