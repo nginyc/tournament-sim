@@ -23,7 +23,7 @@ const TOURNAMENTS_COLLECTION = "tournaments";
 const PLAYERS_COLLECTION = "players";
 const MATCHES_COLLECTION = "matches";
 
-mongodb.MongoClient.connect(process.env.MONGODB_URI, (err, connectedDb) => {
+mongodb.MongoClient.connect(process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL, (err, connectedDb) => {
   if (err) {
     console.error(err);
     process.exit(1);

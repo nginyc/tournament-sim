@@ -4,6 +4,10 @@
     <li class="list-group-item" *ngFor="let t of tournaments">
       {{ t.name }}
     </li>
+
+    <li role="button" class="list-group-item" *ngIf="!isAdding" (click)="onWantAdd($event)">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </li>
   </ul>
 
 </div>
