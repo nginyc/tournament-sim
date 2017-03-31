@@ -6,8 +6,8 @@ let app = express();
 app.use(bodyParser.json());
 
 // Create link to Angular build directory
-let distDir = __dirname + "/dist/";
-app.use(express.static(distDir));
+const ANGULAR_DIR = __dirname + "/dist/";
+app.use(express.static(ANGULAR_DIR));
 
 // Mongo database, will be non-null upon connection
 let db = null;
@@ -111,4 +111,9 @@ app.delete(TOURNAMENT_URI, (req, res) => {
       res.status(200)
         .json(req.params.id)
     });
+});
+
+// Pass routing to Angular
+app.use("/*", (req, res) => {
+  res.sendFile(`${ANGULAR_DIR}/index.html`);
 });
