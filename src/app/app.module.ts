@@ -3,24 +3,25 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from "@angular/router";
-
+import { AppRoutes } from "./app.routes";
 import { AppComponent } from './app.component';
 import { TournamentsListComponent } from './tournaments/tournaments-list/tournaments-list.component';
 import { TournamentStartComponent } from './tournaments/tournament-start/tournament-start.component';
-
-const appRoutes: Routes = [
-  { path: "tournament/start", component: TournamentStartComponent },
-  { path: "", pathMatch: "full", component: TournamentsListComponent }
-];
+import { PlayersListComponent } from './tournaments/players-list/players-list.component';
+import { PlayerAddComponent } from './tournaments/player-add/player-add.component';
+import { TournamentsPageComponent } from './tournaments/tournaments-page/tournaments-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TournamentsListComponent,
-    TournamentStartComponent
+    TournamentStartComponent,
+    PlayersListComponent,
+    PlayerAddComponent,
+    TournamentsPageComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(AppRoutes),
     BrowserModule,
     FormsModule,
     HttpModule

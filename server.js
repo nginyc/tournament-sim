@@ -16,7 +16,9 @@ let db = null;
 const TOURNAMENTS_URI = "/api/tournaments";
 const TOURNAMENT_URI = `${TOURNAMENTS_URI}/:id`;
 const PLAYERS_URI = "/api/players";
+const PLAYER_URI = `${PLAYERS_URI}/:id`;
 const MATCHES_URI = "/api/matches";
+const MATCH_URI = `${MATCHES_URI}/:id`;
 const TOURNAMENTS_COLLECTION = "tournaments";
 const PLAYERS_COLLECTION = "players";
 const MATCHES_COLLECTION = "matches";
@@ -105,6 +107,55 @@ app.delete(TOURNAMENT_URI, (req, res) => {
     .deleteOne({ _id: _id }, (err, doc) => {
       if (err) {
         handleError(res, err.message, "Failed to delete tournament");
+        return;
+      }
+
+      res.status(200)
+        .json(req.params.id)
+    });
+});
+
+
+/*
+    Back-end for CRUD of Players
+*/
+
+app.get(PLAYERS_URI, (req, res) => {
+  db.collection(PLAYERS_COLLECTION)
+    .find({})
+    .toArray((err, docs) => {
+      if (err) {
+        handleError(res, err.message, "Failed to get all players");
+        return;
+      }
+
+      res.status(200)
+        .json(docs);
+    });
+});
+
+app.post(PLAYERS_URI, (req, res) => {
+  let player = req.body;
+
+  db.collection(PLAYERS_COLLECTION)
+    .insertOne(player, (err, doc) => {
+      if (err) {
+        handleError(res, err.message, "Failed to add player");
+        return;
+      }
+
+      res.status(201)
+        .json(doc);
+    });
+});
+
+app.delete(PLAYER_URI, (req, res) => {
+  const _id = req.params.id;
+
+  db.collection(PLAYERS_COLLECTION)
+    .deleteOne({ _id: _id }, (err, doc) => {
+      if (err) {
+        handleError(res, err.message, "Failed to delete player");
         return;
       }
 

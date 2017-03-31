@@ -3,6 +3,7 @@ import { Tournament } from "../tournament";
 import { TournamentService } from "../tournament.service";
 
 @Component({
+  selector: 'tournaments-list',
   templateUrl: './tournaments-list.component.html',
   styleUrls: ['./tournaments-list.component.css'],
   providers: [TournamentService]
