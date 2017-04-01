@@ -3,9 +3,13 @@ let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
 let schema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true
+  },
   type: {
     type: String,
+    required: true,
     enum: ["ROUND_ROBIN"]
   },
   players: [{

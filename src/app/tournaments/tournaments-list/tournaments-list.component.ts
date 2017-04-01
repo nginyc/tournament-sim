@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 
 export class TournamentsListComponent implements OnInit {
 
-  tournaments: any[];
+  tournaments: any[] = [];
 
   constructor(private tournamentService: TournamentService,
     private router: Router) { }
@@ -24,8 +24,12 @@ export class TournamentsListComponent implements OnInit {
       });
   }
 
-  onWantAdd($event: Event) {
+  onWantAdd() {
     this.router.navigate(["/tournament/start"]);
+  }
+
+  onSelect(tournament) {
+    this.router.navigate([`/tournament/${tournament._id}/play`]);
   }
 
 }

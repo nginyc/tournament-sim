@@ -7,12 +7,11 @@ import { Component, OnInit } from '@angular/core';
 
 export class TournamentStartPageComponent implements OnInit {
 
-  tournament;
+  tournament = {};
 
   constructor() { }
 
   ngOnInit() {
-    this.tournament = {};
   }
 
 }

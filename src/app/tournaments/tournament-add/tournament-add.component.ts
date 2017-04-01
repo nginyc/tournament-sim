@@ -11,13 +11,16 @@ import { Router } from "@angular/router";
 
 export class TournamentAddComponent implements OnInit {
 
-  tournament;
+  static readonly TYPES = ["ROUND_ROBIN"];
+
+  tournament = {};
 
   constructor(private tournamentService: TournamentService, private router: Router) { }
 
   ngOnInit() {
     this.tournament = {
-      players: []
+      players: [],
+      type: TournamentAddComponent.TYPES[0]
     };
   }
 

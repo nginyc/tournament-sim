@@ -10,7 +10,7 @@ import { TournamentService } from "../tournament.service";
 
 export class PlayerAddComponent implements OnInit {
 
-  player;
+  player = {};
 
   @Output()
   onAdded = new EventEmitter();
@@ -18,7 +18,6 @@ export class PlayerAddComponent implements OnInit {
   constructor(private tournamentService: TournamentService) { }
 
   ngOnInit() {
-    this.reload();
   }
 
   reload() {

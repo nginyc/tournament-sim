@@ -7,6 +7,7 @@ export class TournamentService {
   private readonly TOURNAMENTS_URI = "/api/tournaments";
   private readonly TOURNAMENT_URI = `${this.TOURNAMENTS_URI}/:id`;
   private readonly PLAYERS_URI = "/api/players";
+  private readonly PLAYER_URI = `${this.PLAYERS_URI}/:id`;
   private readonly MATCHES_URI = "/api/matches";
 
   constructor(private http: Http) { }
@@ -15,7 +16,7 @@ export class TournamentService {
   createPlayer(player): Promise<any> {
     const promise = this.http.post(this.PLAYERS_URI, player)
       .toPromise()
-      .then(response => response.json());
+      .then(response => response.json() as any);
 
     return promise.catch(this.handleError);
   }
@@ -25,6 +26,15 @@ export class TournamentService {
     const promise = this.http.get(this.PLAYERS_URI)
       .toPromise()
       .then(response => response.json() as any[]);
+
+    return promise.catch(this.handleError);
+  }
+
+  // Delete a player
+  deletePlayer(_id: string): Promise<any> {
+    const promise = this.http.delete(this.PLAYER_URI.replace(":id", _id))
+      .toPromise()
+      .then(response => response.json());
 
     return promise.catch(this.handleError);
   }
@@ -60,7 +70,7 @@ export class TournamentService {
   deleteTournament(_id: string): Promise<string> {
     const promise = this.http.delete(this.TOURNAMENT_URI.replace(":id", _id))
       .toPromise()
-      .then(response => response.json() as string);
+      .then(response => response.json());
 
     return promise.catch(this.handleError);
   }

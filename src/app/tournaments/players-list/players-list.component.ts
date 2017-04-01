@@ -10,15 +10,15 @@ import { TournamentService } from "../tournament.service";
 
 export class PlayersListComponent implements OnInit {
 
-  players: any[];
+  players = [];
 
-  isAdding: boolean;
+  isAdding = false;
 
   @Input()
   selectedPlayers = [];
 
   @Input()
-  isSelectMode: boolean = false;
+  isSelectMode = false;
 
   constructor(private tournamentService: TournamentService) { }
 
@@ -38,7 +38,12 @@ export class PlayersListComponent implements OnInit {
       });
   }
 
-  onSelect($event: Event, player) {
+  onSelect(player) {
+    // Only for select mode active
+    if (!this.isSelectMode) {
+      return;
+    }
+
     player.isSelected = !player.isSelected;
 
     // Update selected players array
@@ -49,11 +54,22 @@ export class PlayersListComponent implements OnInit {
     }
   }
 
-  onWantAdd($event: Event) {
+  onDelete(player) {
+    // Remove from selected players array
+    this.selectedPlayers.splice(this.selectedPlayers.indexOf(player._id), 1);
+
+    this.tournamentService.deletePlayer(player._id)
+      .then((player) => {
+        // Remove from players array after deletion from database
+        this.players.splice(this.players.indexOf(player._id), 1);
+      });
+  }
+
+  onWantAdd() {
     this.isAdding = true;
   }
 
-  onAdded($event: Event, player) {
+  onAdded(player) {
     this.isAdding = false;
     this.players.push(player);
   }
