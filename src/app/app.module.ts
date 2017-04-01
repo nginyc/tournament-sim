@@ -10,6 +10,7 @@ import { TournamentStartPageComponent } from './tournaments/tournament-start-pag
 import { PlayersListComponent } from './tournaments/players-list/players-list.component';
 import { PlayerAddComponent } from './tournaments/player-add/player-add.component';
 import { TournamentsPageComponent } from './tournaments/tournaments-page/tournaments-page.component';
+import { TournamentAddComponent } from './tournaments/tournament-add/tournament-add.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TournamentsPageComponent } from './tournaments/tournaments-page/tournam
     TournamentStartPageComponent,
     PlayersListComponent,
     PlayerAddComponent,
-    TournamentsPageComponent
+    TournamentsPageComponent,
+    TournamentAddComponent
   ],
   imports: [
     RouterModule.forRoot(AppRoutes),

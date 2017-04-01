@@ -1,0 +1,23 @@
+<form class="col-md-12">
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input class="form-control" name="name" [(ngModel)]="tournament.name" />
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type</label>
+        <input class="form-control" name="type" [(ngModel)]="tournament.type" />
+      </div>
+    </div>
+
+    <players-list [selectedPlayers]="tournament.players" [isSelectMode]="true"></players-list>
+
+  </div>
+
+  <button class="btn btn-primary" (click)="onWantAdd()">Add Tournament</button>
+
+</form>
