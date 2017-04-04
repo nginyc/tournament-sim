@@ -1,4 +1,4 @@
-let Match = require("./models/match");
+let Match = require("../models/match");
 
 // Assumption: Mongoose has been connected
 

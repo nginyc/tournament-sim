@@ -1,3 +1,5 @@
+let config = require("./config.json");
+
 let express = require("express");
 let bodyParser = require("body-parser");
 let mongodb = require("mongodb");
@@ -12,21 +14,15 @@ app.use(express.static(ANGULAR_DIR));
 
 // Constants
 const API_URI = "/api";
-const TOURNAMENTS_URI = "/api/tournaments";
-const TOURNAMENT_URI = `${TOURNAMENTS_URI}/:id`;
-const PLAYERS_URI = "/api/players";
-const PLAYER_URI = `${PLAYERS_URI}/:id`;
-const MATCHES_URI = "/api/matches";
-const MATCH_URI = `${MATCHES_URI}/:id`;
+const APP_PATH = "./src/express-app";
+const APP_ROUTES_PATH = APP_PATH + "/routes";
 
-let tournamentRoutes = require("./")
-let Tournament = require("./tournaments/models/tournament");
-let Player = require("./tournaments/models/player");
-let Match = require("./tournaments/models/match");
-let Methods = require("./tournaments/methods");
+let tournamentsRoutes = require(APP_ROUTES_PATH + "/tournaments");
+let playersRoutes = require(APP_ROUTES_PATH + "/players");
+let matchesRoutes = require(APP_ROUTES_PATH + "/matches");
 
 mongoose.Promise = Promise; // Use JS Promise so that mongoose doesn't complain
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL);
+mongoose.connect(process.env.MONGODB_URI || config["local_mongdb_uri"] || "mongodb://nginyc:nyc123@ds147900.mlab.com:47900/heroku_b8hnv1vd");
 
 let db = mongoose.connection;
 
@@ -39,7 +35,6 @@ db.on("error", (err) => {
 db.once("open", () => {
   console.log("Database connection ready");
 
-
   let server = app.listen(process.env.PORT || 8080, () => {
     let port = server.address().port;
 
@@ -47,7 +42,9 @@ db.once("open", () => {
   });
 });
 
-app 
+app.use(API_URI + "/tournaments", tournamentsRoutes);
+app.use(API_URI + "/players", playersRoutes);
+app.use(API_URI + "/matches", matchesRoutes);
 
 // Pass routing to Angular
 app.use("/*", (req, res) => {

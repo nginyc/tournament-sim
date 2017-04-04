@@ -1,5 +1,7 @@
 let express = require("express");
 let router = express.Router();
+let Tournament = require("../models/Tournament");
+let Methods = require("../lib/Methods");
 
 function handleError(res, msg, code = 500) {
   console.err(msg);
