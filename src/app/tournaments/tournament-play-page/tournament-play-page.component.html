@@ -1,12 +1,9 @@
-<div class="col-md-12">
-
-  <div class="row">
-    <div class="col-md-6">
-      {{ tournament.name }}
-    </div>
-
-    <div class="col-md-6">
-    </div>
+<h2>{{ tournament.name }}</h2>
+<div class="row">
+  <div class="col-md-6">
+    <matches-list [matches]="tournament.matches" (onSelectWinner)="onSelectMatchWinner($event)"></matches-list>
   </div>
-
+  <div class="col-md-6">
+    <leaderboard [matches]="tournament.matches"></leaderboard>
+  </div>
 </div>

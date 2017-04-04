@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 
 export class TournamentPlayPageComponent implements OnInit {
 
-  tournament = {};
+  tournament: any = {};
 
   constructor(private tournamentService: TournamentService, private activatedRoute: ActivatedRoute) { }
 
@@ -22,10 +22,20 @@ export class TournamentPlayPageComponent implements OnInit {
     this.activatedRoute.params
       .switchMap((params: Params) => {
         let _id = params["id"];
-        return this.tournamentService.getTournament(_id);
+        return this.tournamentService.getTournament(_id, { ifPopMatches: true });
       }).subscribe(tournament => {
         this.tournament = tournament;
       });
+  }
+
+  onSelectMatchWinner({ match_id, winner_id }) {
+    this.tournamentService.updateMatch(match_id, {
+      winner: winner_id
+    }).then((updatedMatch) => {
+      this.tournament.matches = this.tournament.matches.map(x => {
+        return (x._id == updatedMatch._id) ? updatedMatch : x;
+      });
+    });
   }
 
 }

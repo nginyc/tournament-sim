@@ -1,0 +1,19 @@
+<h3>Leaderboard</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Player</th>
+      <th>Wins</th>
+      <th>Losses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of rankings">
+      <th>{{r.rank}}</th>
+      <td>{{r.player.name}}</td>
+      <td>{{r.wins}}</td>
+      <td>{{r.losses}}</td>
+    </tr>
+  </tbody>
+</table>

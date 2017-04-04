@@ -1,20 +1,16 @@
-<div class="col-md-6">
+<ul class="list-group">
+  <li *ngFor="let p of players" [attr.role]="isSelectMode ? 'button' : ''" class="list-group-item" [class.active]="p.isSelected"
+    (click)="onSelect(p)">
+    {{ p.name }}
+    <span *ngIf="!isSelectMode" role="button" class="glyphicon glyphicon-remove-sign" aria-hidden="true" (click)="onDelete(p)"></span>
+  </li>
 
-  <ul class="list-group">
-    <li *ngFor="let p of players" [attr.role]="isSelectMode ? 'button' : ''" class="list-group-item" [class.active]="p.isSelected"
-      (click)="onSelect(p)">
-      {{ p.name }}
-      <span *ngIf="!isSelectMode" role="button" class="glyphicon glyphicon-remove-sign" aria-hidden="true" (click)="onDelete(p)"></span>
-    </li>
+  <li role="button" class="list-group-item" *ngIf="!isAdding" (click)="onWantAdd()">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </li>
 
-    <li role="button" class="list-group-item" *ngIf="!isAdding" (click)="onWantAdd()">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    </li>
-
-    <li class="list-group-item" *ngIf="isAdding">
-      <player-add (onAdded)="onAdded($event)">
-      </player-add>
-    </li>
-  </ul>
-
-</div>
+  <li class="list-group-item" *ngIf="isAdding">
+    <player-add (onAdded)="onAdded($event)">
+    </player-add>
+  </li>
+</ul>

@@ -9,6 +9,7 @@ export class TournamentService {
   private readonly PLAYERS_URI = "/api/players";
   private readonly PLAYER_URI = `${this.PLAYERS_URI}/:id`;
   private readonly MATCHES_URI = "/api/matches";
+  private readonly MATCH_URI = `${this.MATCHES_URI}/:id`;
 
   constructor(private http: Http) { }
 
@@ -39,9 +40,23 @@ export class TournamentService {
     return promise.catch(this.handleError);
   }
 
-  // Returns tournament by id, with full match and player data
-  getTournament(_id: string): Promise<any> {
-    const promise = this.http.get(this.TOURNAMENT_URI.replace(":id", _id))
+  // Get a tournament by id, optionally populating its matches and players
+  getTournament(_id: string,
+    options: {
+      ifPopPlayers?: boolean,
+      ifPopMatches?: boolean
+    } = {
+        ifPopPlayers: false,
+        ifPopMatches: false
+      }
+  ): Promise<any> {
+
+    const promise = this.http.get(this.TOURNAMENT_URI.replace(":id", _id), {
+      params: {
+        matches: options.ifPopMatches ? 1 : 0,
+        players: options.ifPopPlayers ? 1 : 0
+      }
+    })
       .toPromise()
       .then(response => response.json());
 
@@ -69,6 +84,15 @@ export class TournamentService {
   // Delete tournament, returning id of tournament deleted
   deleteTournament(_id: string): Promise<string> {
     const promise = this.http.delete(this.TOURNAMENT_URI.replace(":id", _id))
+      .toPromise()
+      .then(response => response.json());
+
+    return promise.catch(this.handleError);
+  }
+
+  // Update match by winner
+  updateMatch(_id: string, matchPart) {
+    const promise = this.http.put(this.MATCH_URI.replace(":id", _id), matchPart)
       .toPromise()
       .then(response => response.json());
 

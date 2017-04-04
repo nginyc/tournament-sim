@@ -1,0 +1,14 @@
+<h3>Matches</h3>
+<ul class="list-group">
+  <li *ngFor="let m of matches" class="list-group-item">
+    <div class="text-center" [ngClass]="{'bg-info': m.isCurrent, 'bg-faded': m.isOver}">
+      <div class="row">
+        <div class="col-xs-4" [attr.role]="m.isCurrent ? 'button' : ''" [ngClass]="{'glyphicon glyphicon-king': m.player1.isWinner}"
+          (click)="onSelect(m, m.player1)">{{ m.player1.name }}</div>
+        <div class="col-xs-4">vs</div>
+        <div class="col-xs-4" [attr.role]="m.isCurrent ? 'button' : ''" [ngClass]="{'glyphicon glyphicon-king': m.player2.isWinner}"
+          (click)="onSelect(m, m.player2)">{{ m.player2.name }}</div>
+      </div>
+    </div>
+  </li>
+</ul>

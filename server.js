@@ -18,9 +18,10 @@ const PLAYER_URI = `${PLAYERS_URI}/:id`;
 const MATCHES_URI = "/api/matches";
 const MATCH_URI = `${MATCHES_URI}/:id`;
 
-let Tournament = require("./models/tournament");
-let Player = require("./models/player");
-let Match = require("./models/match");
+let Tournament = require("./tournaments/models/tournament");
+let Player = require("./tournaments/models/player");
+let Match = require("./tournaments/models/match");
+let Methods = require("./tournaments/methods");
 
 mongoose.Promise = Promise; // Use JS Promise so that mongoose doesn't complain
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL);
@@ -45,7 +46,7 @@ db.once("open", () => {
 });
 
 // Generic error handler used by all endpoints.
-function handleError(res, reason, message, code = null) {
+function handleError(res, reason, message = "", code = null) {
   console.log("ERROR: " + reason);
 
   res.status(code || 500)
@@ -59,6 +60,7 @@ function handleError(res, reason, message, code = null) {
 */
 
 app.get(TOURNAMENTS_URI, (req, res) => {
+
   Tournament.find({}, (err, tournaments) => {
     if (err) {
       handleError(res, err.message, "Failed to get all tournaments");
@@ -68,34 +70,55 @@ app.get(TOURNAMENTS_URI, (req, res) => {
     res.status(200)
       .json(tournaments);
   });
+
 });
 
 app.post(TOURNAMENTS_URI, (req, res) => {
   let tournament = new Tournament(req.body);
 
-  tournament.save((err, tournament) => {
-    if (err) {
-      handleError(res, err.message, "Failed to add tournament");
-      return;
-    }
-
-    res.status(201)
-      .json(tournament);
-  });
+  // Initialize matches for newly created tournament
+  // Then save tournaments
+  // Then do http response
+  Methods.initializeMatches(tournament)
+    .then((tournament) => tournament.save())
+    .then((tournament) => {
+      res.status(201)
+        .json(tournament);
+    }).catch((error) => {
+      handleError(res, error);
+    });
 });
 
 app.get(TOURNAMENT_URI, (req, res) => {
   const _id = req.params.id;
 
-  Tournament.findOne({ _id: _id }, (err, tournament) => {
+  const ifPopMatches = +req.query.matches ? true : false;
+  const ifPopPlayers = +req.query.players ? true : false;
+
+  let query = Tournament.findOne({ _id: _id });
+
+  if (ifPopMatches) {
+    query = query.populate({
+      path: "matches",
+      populate: {
+        path: "player1 player2 winner"
+      }
+    });
+  }
+
+  if (ifPopPlayers) {
+    query = query.populate("players");
+  }
+
+  return query.exec((err, tournament) => {
     if (err) {
-      handleError(res, err.message, "No such tournament");
+      handleError(res, err.message, "Failed to get tournament");
       return;
     }
 
     res.status(200)
       .json(tournament);
-  });
+  })
 });
 
 app.delete(TOURNAMENT_URI, (req, res) => {
@@ -182,6 +205,31 @@ app.delete(PLAYER_URI, (req, res) => {
       res.status(200)
         .json(player);
     });
+  });
+});
+
+// Update match by winner
+app.put(MATCH_URI, (req, res) => {
+  const _id = req.params.id;
+
+  const $set = {};
+
+  if (req.body.winner) $set.winner = req.body.winner;
+
+  let query = Match.findByIdAndUpdate(_id, { $set: $set }, { new: true });
+
+  query = query.populate({
+    path: "player1 player2 winner"
+  });
+
+  query.exec((err, match) => {
+    if (err) {
+      handleError(res, err.message, "Failed to update match");
+      return;
+    }
+
+    res.status(202)
+      .json(match);
   });
 });
 

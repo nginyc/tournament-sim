@@ -14,11 +14,13 @@ let schema = new Schema({
   },
   players: [{
     type: ObjectId,
+    required: true,
     ref: "Player"
   }],
   matches: [{
     type: ObjectId,
-    ref: "Match"
+    ref: "Match",
+    default: []
   }]
 });
 
