@@ -31,7 +31,7 @@ This web application is by no means the best way to implement a tournament simul
 - (Refactoring) Split server.js into modules
 - (Refactoring) Static typing for data types passed around in Angular components (e.g. Match/Tournament/Player) 
 
-#### Do-If-Too-Free
+### Do-If-Too-Free
 
 - More types of tournaments, and more options to customize tournaments
 - Left & right arrow keys to submit match result
