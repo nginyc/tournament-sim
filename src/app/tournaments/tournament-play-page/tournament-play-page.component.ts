@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { TournamentService } from "../tournament.service";
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TournamentService } from '../tournament.service';
 import 'rxjs/add/operator/switchMap';
+
+class Tournament {
+  matches = [];
+}
 
 @Component({
   selector: 'app-tournament-play-page',
@@ -9,19 +13,19 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./tournament-play-page.component.css'],
   providers: [TournamentService]
 })
-
 export class TournamentPlayPageComponent implements OnInit {
 
-  tournament: any = {};
+  tournament = new Tournament();
 
-  constructor(private tournamentService: TournamentService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private tournamentService: TournamentService, private activatedRoute: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
 
     // For every change of :id, update current page's tournament
     this.activatedRoute.params
       .switchMap((params: Params) => {
-        let _id = params["id"];
+        const _id = params['id'];
         return this.tournamentService.getTournament(_id, { ifPopMatches: true });
       }).subscribe(tournament => {
         this.tournament = tournament;
@@ -33,12 +37,12 @@ export class TournamentPlayPageComponent implements OnInit {
       winner: winner_id
     }).then((updatedMatch) => {
       this.tournament.matches = this.tournament.matches.map(x => {
-        return (x._id == updatedMatch._id) ? updatedMatch : x;
+        return (x._id === updatedMatch._id) ? updatedMatch : x;
       });
     });
   }
-  
+
   onWantViewTournaments() {
-    this.router.navigate(["/tournaments"]);
+    this.router.navigate(['/tournaments']);
   }
 }

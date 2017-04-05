@@ -1,10 +1,10 @@
 import Tournament from "../models/tournament";
-import { initializeMatches } from "../lib/methods";
+import { initializeMatches } from "../lib/tournaments";
 
 let express = require("express");
 let router = express.Router();
 
-function handleError(res, msg, code = 500) {
+function handleError(res: {}, msg: {}, code: number = 500) {
   console.error(msg);
 
   res.status(code)
@@ -13,8 +13,8 @@ function handleError(res, msg, code = 500) {
     });
 }
 
-router.get("/", (req, res) => {
-  Tournament.find({}, (err, tournaments) => {
+router.get("/", (req: {}, res: {}) => {
+  Tournament.find({}, (err: {}, tournaments: []) => {
     if (err) {
       handleError(res, "Failed to get all tournaments: " + err.message);
       return;
@@ -25,23 +25,23 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", (req: {}, res: {}) => {
   let tournament = new Tournament(req.body);
 
   // Initialize matches for newly created tournament
   // Then save tournaments
   // Then do http response
   initializeMatches(tournament)
-    .then((tournament) => tournament.save())
-    .then((tournament) => {
+    .then((tournament: {}): Promise<{}> => tournament.save())
+    .then((tournament: {}) => {
       res.status(201)
         .json(tournament);
-    }).catch((err) => {
+    }).catch((err: {}) => {
       handleError(res, "Failed to create tournament: " + err.message);
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", (req: {}, res: {}) => {
   const _id = req.params.id;
 
   const ifPopMatches = +req.query.matches ? true : false;
@@ -54,7 +54,7 @@ router.get("/:id", (req, res) => {
       path: "matches",
       populate: {
         path: "player1 player2 winner"
-      }
+      },
     });
   }
 
@@ -62,7 +62,7 @@ router.get("/:id", (req, res) => {
     query = query.populate("players");
   }
 
-  return query.exec((err, tournament) => {
+  return query.exec((err: {}, tournament: {}) => {
     if (err) {
       handleError(res, "Failed to get tournament: " + err.message);
       return;
@@ -73,16 +73,16 @@ router.get("/:id", (req, res) => {
   })
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req: {}, res: {}) => {
   const _id = req.params.id;
 
-  Tournament.findOne({ _id: _id }, (err, tournament) => {
+  Tournament.findOne({ _id: _id }, (err: {}, tournament: {}) => {
     if (err) {
-      handleError(res, "Failed to find tournament: " + err.message);      
+      handleError(res, "Failed to find tournament: " + err.message);
       return;
     }
 
-    tournament.remove((err) => {
+    tournament.remove((err: {}) => {
       if (err) {
         handleError(res, "Failed to delete tournament: " + err.message);
         return;

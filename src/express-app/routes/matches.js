@@ -3,7 +3,7 @@ import Match from "../models/match";
 let express = require("express");
 let router = express.Router();
 
-function handleError(res, msg, code = 500) {
+function handleError(res: {}, msg: {}, code: number = 500) {
   console.error(msg);
 
   res.status(code)
@@ -13,7 +13,7 @@ function handleError(res, msg, code = 500) {
 }
 
 // Update match by winner
-router.put("/:id", (req, res) => {
+router.put("/:id", (req: {}, res: {}) => {
   const _id = req.params.id;
 
   const $set = {};
@@ -26,7 +26,7 @@ router.put("/:id", (req, res) => {
     path: "player1 player2 winner"
   });
 
-  query.exec((err, match) => {
+  query.exec((err: {}, match: {}) => {
     if (err) {
       handleError(res, "Failed to update match: " + err.message);
       return;
