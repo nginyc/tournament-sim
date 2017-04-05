@@ -22,7 +22,7 @@ let playersRoutes = require(APP_ROUTES_PATH + "/players");
 let matchesRoutes = require(APP_ROUTES_PATH + "/matches");
 
 mongoose.Promise = Promise; // Use JS Promise so that mongoose doesn't complain
-mongoose.connect(process.env.MONGODB_URI || config["local_mongdb_uri"] || "mongodb://nginyc:nyc123@ds147900.mlab.com:47900/heroku_b8hnv1vd");
+mongoose.connect(process.env.MONGODB_URI || config["local_mongdb_uri"]);
 
 let db = mongoose.connection;
 

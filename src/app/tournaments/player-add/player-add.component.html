@@ -1,8 +1,8 @@
-<form>
+<form (ngSubmit)="onWantAdd($event)">
   <div class="form-group">
     <label for="name">Name</label>
     <input class="form-control" name="name" [(ngModel)]="player.name" />
   </div>
 
-  <button class="btn btn-primary" (click)="onWantAdd()">Add Player</button>
+  <button type="submit" class="btn btn-primary">Add Player</button>
 </form>

@@ -1,35 +1,32 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { TournamentService } from "../tournament.service";
 
 @Component({
   selector: 'player-add',
   templateUrl: './player-add.component.html',
-  styleUrls: ['./player-add.component.css'],
-  providers: [TournamentService]
+  styleUrls: ['./player-add.component.css']
 })
 
 export class PlayerAddComponent implements OnInit {
 
-  player = {};
+  player: any;
 
   @Output()
-  onAdded = new EventEmitter();
+  onWantAddEvent = new EventEmitter();
 
-  constructor(private tournamentService: TournamentService) { }
+  constructor() { }
 
   ngOnInit() {
+    this.reload();
   }
 
   reload() {
     this.player = {};
   }
 
-  onWantAdd() {
-    this.tournamentService.createPlayer(this.player)
-      .then((player) => {
-        this.onAdded.emit(player);
-        this.reload();
-      });
+  onWantAdd($event) {
+    this.onWantAddEvent.emit({
+      player: this.player
+    });
   }
 
 }

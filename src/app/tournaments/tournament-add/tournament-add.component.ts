@@ -1,23 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { TournamentService } from "../tournament.service";
-import { Router } from "@angular/router";
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'tournament-add',
   templateUrl: './tournament-add.component.html',
-  styleUrls: ['./tournament-add.component.css'],
-  providers: [TournamentService]
+  styleUrls: ['./tournament-add.component.css']
 })
 
 export class TournamentAddComponent implements OnInit {
 
   static readonly TYPES = ["ROUND_ROBIN"];
 
+  @Output()
+  onWantAddTournamentEvent = new EventEmitter();
+
+  @Output()
+  onWantDeletePlayerEvent = new EventEmitter();
+  
+  @Output()
+  onWantAddPlayerEvent = new EventEmitter();
+  
+  @Input()
+  players: any[];
+
   tournament = {};
 
-  constructor(private tournamentService: TournamentService, private router: Router) { }
+  constructor() { }
 
   ngOnInit() {
+    this.reload();
+  }
+  
+  reload() {
     this.tournament = {
       players: [],
       type: TournamentAddComponent.TYPES[0]
@@ -25,11 +38,20 @@ export class TournamentAddComponent implements OnInit {
   }
 
   onWantAdd() {
-    this.tournamentService.createTournament(this.tournament)
-      .then((tournament) => {
-        // Redirect to tournament play page
-        this.router.navigate([`/tournament/${tournament._id}/play`]);
-      });
+    this.onWantAddTournamentEvent.emit({
+      tournament: this.tournament
+    });
   }
-
+  
+  onWantAddPlayer({player}) {
+    this.onWantAddPlayerEvent.emit({
+      player: player
+    });
+  }
+  
+  onWantDeletePlayer({player_id}) {
+    this.onWantDeletePlayerEvent.emit({
+      player_id: player_id
+    });
+  }
 }

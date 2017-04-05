@@ -1,41 +1,51 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { TournamentService } from "../tournament.service";
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'players-list',
   templateUrl: './players-list.component.html',
-  styleUrls: ['./players-list.component.css'],
-  providers: [TournamentService]
+  styleUrls: ['./players-list.component.css']
 })
 
-export class PlayersListComponent implements OnInit {
-
-  players = [];
+export class PlayersListComponent implements OnInit, OnChanges {
 
   isAdding = false;
+  
+  @Input()
+  players: any[];
 
   @Input()
-  selectedPlayers = [];
+  selectedPlayerIds = [];
 
   @Input()
   isSelectMode = false;
+  
+  @Output()
+  onWantDeleteEvent = new EventEmitter();
+  
+  @Output()
+  onWantAddEvent = new EventEmitter();
 
-  constructor(private tournamentService: TournamentService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.reload();
   }
-
-  reload() {
-    this.tournamentService
-      .getPlayers()
-      .then((players: any[]) => {
-        this.players = players;
-
-        // Select players initialized as selected
-        this.players.filter(x => x._id in this.selectedPlayers)
-          .forEach(x => x.isSelected = true);
-      });
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    // If selected players or players have changed, re-initialize required properties
+    if (changes.selectedPlayerIds && !changes.selectedPlayerIds.firstChange) {
+      this.initializeSelectedPlayers(this.players, changes.selectedPlayerIds.currentValue);
+    } 
+    
+    if (changes.players && !changes.players.firstChange) {
+      this.initializeSelectedPlayers(changes.players.currentValue, this.selectedPlayerIds);
+    }
+  }
+  
+  initializeSelectedPlayers(players: any[], selectedPlayerIds: string[]) {
+    // Reconcile with players array
+    for (let player of players) {
+      player.isSelected = (player._id in selectedPlayerIds);
+    }
   }
 
   onSelect(player) {
@@ -48,29 +58,27 @@ export class PlayersListComponent implements OnInit {
 
     // Update selected players array
     if (player.isSelected) {
-      this.selectedPlayers.push(player._id);
+      this.selectedPlayerIds.push(player._id);
     } else {
-      this.selectedPlayers.splice(this.selectedPlayers.indexOf(player._id), 1);
+      this.selectedPlayerIds.splice(this.selectedPlayerIds.indexOf(player._id), 1);
     }
   }
 
-  onDelete(player) {
-    // Remove from selected players array
-    this.selectedPlayers.splice(this.selectedPlayers.indexOf(player._id), 1);
-
-    this.tournamentService.deletePlayer(player._id)
-      .then((player) => {
-        // Remove from players array after deletion from database
-        this.players.splice(this.players.indexOf(player._id), 1);
-      });
+  onWantDelete(player) {
+    this.onWantDeleteEvent.emit({
+      player_id: player._id
+    });
   }
 
-  onWantAdd() {
+  onWantViewAdd() {
     this.isAdding = true;
   }
 
-  onAdded(player) {
+  onWantAdd({player}) {
     this.isAdding = false;
-    this.players.push(player);
+    
+    this.onWantAddEvent.emit({
+      player: player
+    });
   }
 }

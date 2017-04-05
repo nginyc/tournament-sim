@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { TournamentService } from "../tournament.service";
 import 'rxjs/add/operator/switchMap';
 
@@ -14,7 +14,7 @@ export class TournamentPlayPageComponent implements OnInit {
 
   tournament: any = {};
 
-  constructor(private tournamentService: TournamentService, private activatedRoute: ActivatedRoute) { }
+  constructor(private tournamentService: TournamentService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
 
@@ -37,5 +37,8 @@ export class TournamentPlayPageComponent implements OnInit {
       });
     });
   }
-
+  
+  onWantViewTournaments() {
+    this.router.navigate(["/tournaments"]);
+  }
 }

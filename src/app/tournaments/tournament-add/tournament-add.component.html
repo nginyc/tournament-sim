@@ -1,4 +1,4 @@
-<form class="row">
+<form class="row" (ngSubmit)="onWantAdd($event)">
   <div class="col-md-6">
     <div class="form-group">
       <label for="name">Name</label>
@@ -10,9 +10,9 @@
     </div>
   </div>
   <div class="col-md-6">
-    <players-list [selectedPlayers]="tournament.players" [isSelectMode]="true"></players-list>
+    <players-list [players]="players" [selectedPlayerIds]="tournament.players" (onWantAddEvent)="onWantAddPlayer($event)" (onWantDeleteEvent)="onWantDeletePlayer($event)" [isSelectMode]="true"></players-list>
   </div>
   <div class="col-md-12">
-    <button class="btn btn-primary" (click)="onWantAdd()">Start Tournament</button>
+     <button type="submit" class="btn btn-primary">Start Tournament</button>
   </div>
 </form>

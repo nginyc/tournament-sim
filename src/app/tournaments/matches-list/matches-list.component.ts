@@ -12,7 +12,7 @@ export class MatchesListComponent implements OnInit, OnChanges {
   matches: any[];
 
   @Output()
-  onSelectWinner = new EventEmitter();
+  onSelectWinnerEvent = new EventEmitter();
 
   constructor() { }
 
@@ -50,7 +50,7 @@ export class MatchesListComponent implements OnInit, OnChanges {
   onSelect(match, winner) {
     if (!match.isCurrent) return;
 
-    this.onSelectWinner.emit({
+    this.onSelectWinnerEvent.emit({
       match_id: match._id,
       winner_id: winner._id
     });

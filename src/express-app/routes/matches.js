@@ -3,7 +3,7 @@ let router = express.Router();
 let Match = require("../models/Match");
 
 function handleError(res, msg, code = 500) {
-  console.err(msg);
+  console.error(msg);
 
   res.status(code)
     .json({
