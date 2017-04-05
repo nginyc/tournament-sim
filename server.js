@@ -6,20 +6,17 @@ let mongodb = require("mongodb");
 let mongoose = require("mongoose");
 let app = express();
 
-app.use(bodyParser.json());
-
-// Create link to Angular build directory
-const ANGULAR_DIR = __dirname + "/dist/";
-app.use(express.static(ANGULAR_DIR));
-
-// Constants
+const ANGULAR_APP_DIR = __dirname + "/dist/app";
+const EXPRESS_APP_DIR = __dirname + "/src/express-app";
 const API_URI = "/api";
-const APP_PATH = "./src/express-app";
-const APP_ROUTES_PATH = APP_PATH + "/routes";
+const APP_ROUTES_PATH = EXPRESS_APP_DIR + "/routes";
 
 let tournamentsRoutes = require(APP_ROUTES_PATH + "/tournaments");
 let playersRoutes = require(APP_ROUTES_PATH + "/players");
 let matchesRoutes = require(APP_ROUTES_PATH + "/matches");
+
+app.use(bodyParser.json());
+app.use(express.static(ANGULAR_APP_DIR));
 
 mongoose.Promise = Promise; // Use JS Promise so that mongoose doesn't complain
 mongoose.connect(process.env.MONGODB_URI || config["local_mongdb_uri"]);
@@ -48,5 +45,5 @@ app.use(API_URI + "/matches", matchesRoutes);
 
 // Pass routing to Angular
 app.use("/*", (req, res) => {
-  res.sendFile(`${ANGULAR_DIR}/index.html`);
+  res.sendFile(`${ANGULAR_APP_DIR}/index.html`);
 });

@@ -2,7 +2,6 @@
   "name": "tournament-sim",
   "version": "0.0.0",
   "license": "MIT",
-  "angular-cli": {},
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -10,7 +9,12 @@
     "lint": "tslint \"src/**/*.ts\"",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "e2e": "ng e2e",
-    "postinstall": "ng build"
+    "build-app": "ng build",
+    "build-express-app": "babel src/express-app --out-dir dist/express-app --copy-files",
+    "make-dist": "rm -rf dist && mkdir dist",
+    "prepare": "npm run make-dist && npm run build-express-app",
+    "restart": "npm run make-dist && npm run build-express-app && npm run build-app && npm run start",
+    "postinstall": "npm run build-app"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +28,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "babel-cli": "^6.24.0",
     "body-parser": "^1.17.1",
     "core-js": "^2.4.1",
     "express": "^4.15.2",
