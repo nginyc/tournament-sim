@@ -28,4 +28,4 @@ if (!mongoose.Tournament) {
   mongoose.Tournament = mongoose.model("Tournament", schema);  
 }
 
-module.exports = mongoose.Tournament;
+export default mongoose.Tournament;

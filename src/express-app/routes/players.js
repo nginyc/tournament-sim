@@ -1,6 +1,7 @@
+import Player from "../models/player";
+
 let express = require("express");
 let router = express.Router();
-let Player = require("../models/Player");
 
 function handleError(res, msg, code = 500) {
   console.error(msg);

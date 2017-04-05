@@ -9,4 +9,4 @@ if (!mongoose.Player) {
   mongoose.Player = mongoose.model("Player", schema);
 }
 
-module.exports = mongoose.Player;
+export default mongoose.Player;

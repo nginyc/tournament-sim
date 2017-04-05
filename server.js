@@ -7,7 +7,7 @@ let mongoose = require("mongoose");
 let app = express();
 
 const ANGULAR_APP_DIR = __dirname + "/dist/app";
-const EXPRESS_APP_DIR = __dirname + "/src/express-app";
+const EXPRESS_APP_DIR = __dirname + "/dist/express-app";
 const API_URI = "/api";
 const APP_ROUTES_PATH = EXPRESS_APP_DIR + "/routes";
 

@@ -1,7 +1,8 @@
+import Tournament from "../models/tournament";
+import { initializeMatches } from "../lib/methods";
+
 let express = require("express");
 let router = express.Router();
-let Tournament = require("../models/Tournament");
-let Methods = require("../lib/Methods");
 
 function handleError(res, msg, code = 500) {
   console.error(msg);
@@ -30,7 +31,7 @@ router.post("/", (req, res) => {
   // Initialize matches for newly created tournament
   // Then save tournaments
   // Then do http response
-  Methods.initializeMatches(tournament)
+  initializeMatches(tournament)
     .then((tournament) => tournament.save())
     .then((tournament) => {
       res.status(201)

@@ -1,6 +1,7 @@
+import Match from "../models/match";
+
 let express = require("express");
 let router = express.Router();
-let Match = require("../models/Match");
 
 function handleError(res, msg, code = 500) {
   console.error(msg);

@@ -12,4 +12,4 @@ if (!mongoose.Match) {
   mongoose.Match = mongoose.model("Match", schema);
 }
 
-module.exports = mongoose.Match;
+export default mongoose.Match;
