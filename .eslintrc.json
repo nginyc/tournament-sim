@@ -48,9 +48,9 @@
       2,
       "comma"
     ],
-    "flowtype/require-parameter-type": 2,
+    "flowtype/require-parameter-type": 1,
     "flowtype/require-return-type": [
-      2,
+      1,
       "always",
       {
         "annotateUndefined": "never"

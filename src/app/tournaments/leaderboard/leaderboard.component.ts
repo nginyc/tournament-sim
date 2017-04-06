@@ -82,11 +82,10 @@ export class LeaderboardComponent implements OnInit, OnChanges {
     }
   }
 
-  // Calculate W-L and rank of players based on matches
-  updateRankings() {
+  _initializeStats(matches: Match[]): { [key: string]: Ranking } {
     // Populate initial stats with map of player_id -> stat
     const stats: { [key: string]: Ranking } = {};
-    for (const match of this.matches) {
+    for (const match of matches) {
       if (!(match.player1._id in stats)) {
         stats[match.player1._id] = new Ranking(match.player1);
       }
@@ -96,8 +95,22 @@ export class LeaderboardComponent implements OnInit, OnChanges {
       }
     }
 
+    return stats;
+  }
+
+  // Calculate W-L and rank of players based on matches
+  updateRankings() {
+    let matches = this.matches;
+
+    // Remove matches with null players (due to deletion)
+    matches = matches.filter(x => {
+      return x.player1 == null || x.player2 == null;
+    })
+
+    const stats = this._initializeStats(matches);
+
     // For each match, update wins/losses
-    for (const match of this.matches) {
+    for (const match of matches) {
       // If match has no winner yet, skip
       if (!match.winner) {
         continue;

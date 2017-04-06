@@ -14,6 +14,7 @@ import { TournamentAddComponent } from './tournaments/tournament-add/tournament-
 import { TournamentPlayPageComponent } from './tournaments/tournament-play-page/tournament-play-page.component';
 import { MatchesListComponent } from './tournaments/matches-list/matches-list.component';
 import { LeaderboardComponent } from './tournaments/leaderboard/leaderboard.component';
+import { ConfirmationModalComponent } from './templates/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LeaderboardComponent } from './tournaments/leaderboard/leaderboard.comp
     TournamentAddComponent,
     TournamentPlayPageComponent,
     MatchesListComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     RouterModule.forRoot(AppRoutes),
