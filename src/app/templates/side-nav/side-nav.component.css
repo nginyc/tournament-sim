@@ -1,0 +1,13 @@
+.nav.nav-pills {
+  margin: 20px 10px;
+  color: #1976D2;
+}
+
+.nav.nav-pills > li > a {
+  border-radius: 0;
+  transition: 0.2s background-color;
+}
+
+.nav.nav-pills > li.active > a {
+  background-color: #1976D2;
+}

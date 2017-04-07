@@ -1,0 +1,40 @@
+.match.active {
+  background-color: #FFA000;
+  font-weight: bold;
+}
+
+.match.over {
+  opacity: 0.8;
+}
+
+.match .vs {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.match .win-icon {
+  color: #FFA000;
+  font-size: 1.5em;
+}
+
+.match .win-icon.left {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.match .win-icon.right {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.match .win-icon.invisible {
+  opacity: 0;
+  color: white;
+  transition: 0.2s opacity;
+}
+
+.match.active .win-icon.invisible:hover {
+  opacity: 1;
+}

@@ -1,20 +1,25 @@
-<ul class="list-group">
-  <li *ngFor="let p of players" [attr.role]="isSelectMode ? 'button' : ''" class="list-group-item" [class.active]="p.isSelected"
-    (click)="onSelect(p)">
-    {{ p.name }}
-    <span *ngIf="!isSelectMode" role="button" class="glyphicon glyphicon-remove-sign" aria-hidden="true" (click)="onWantDelete(p)"></span>
-  </li>
-
-  <li role="button" class="list-group-item" *ngIf="!isAdding" (click)="onWantViewAdd()">
+<div class="h1">
+  Players
+  <div role="button" (click)="_onWantViewAdd()">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </div>
+</div>
+
+<ul class="list-group">
+  <li *ngFor="let p of _players" [attr.role]="isSelectMode ? 'button' : ''" class="player list-group-item" [class.active]="p.isSelected"
+    (click)="_onSelect(p)">
+    {{ p.name }}
+    <div role="button" (click)="_onWantDelete(p)">
+      <span *ngIf="!isSelectMode" class="delete-icon glyphicon glyphicon-remove-sign text-red" aria-hidden="true"></span>
+    </div>
   </li>
 
-  <li class="list-group-item" *ngIf="isAdding">
-    <app-player-add (onWantAddEvent)="onWantAdd($event)">
+  <li class="list-group-item" *ngIf="_isAdding">
+    <app-player-add (onAddedEvent)="_onPlayerAdded($event)">
     </app-player-add>
   </li>
 </ul>
 
-<app-confirmation-modal [message]="deleteModalMessage" [title]="deleteModalTitle" [isShown]="isDeleteModalShown" (onCancelEvent)="onDeleteCancel($event)"
-  (onConfirmEvent)="onDeleteConfirm($event)">
+<app-confirmation-modal [message]="_deleteModalMessage" [title]="_deleteModalTitle" [isShown]="_isDeleteModalShown" (onCancelEvent)="_onDeleteCancel($event)"
+  (onConfirmEvent)="_onDeleteConfirm($event)">
 </app-confirmation-modal>

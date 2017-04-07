@@ -1,0 +1,11 @@
+.player .delete-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.5em;
+  transition: 0.2s opacity;
+}
+
+.player .delete-icon:hover {
+  opacity: 0.8;
+}

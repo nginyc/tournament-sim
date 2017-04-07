@@ -1,17 +1,17 @@
+<div class="h1">New Tournament: {{ _tournament.name }} </div>
 <form class="row" (ngSubmit)="onWantAdd($event)">
   <div class="col-md-6">
     <div class="form-group">
       <label for="name">Name</label>
-      <input class="form-control" name="name" [(ngModel)]="tournament.name" required />
+      <input class="form-control" name="name" [(ngModel)]="_tournament.name" required />
     </div>
 
     <div class="form-group">
-      <label class="radio-inline"><input type="radio" name="type" value="ROUND_ROBIN" [(ngModel)]="tournament.type">Round Robin</label>
+      <label class="radio-inline"><input type="radio" name="type" value="ROUND_ROBIN" [(ngModel)]="_tournament.type">Round Robin</label>
     </div>
   </div>
   <div class="col-md-6">
-    <app-players-list [players]="players" [selectedPlayerIds]="tournament.players" (onWantAddEvent)="onWantAddPlayer($event)"
-      (onWantDeleteEvent)="onWantDeletePlayer($event)" [isSelectMode]="true">
+    <app-players-list [(selectedPlayerIds)]="_tournament.players" [isSelectMode]="true">
     </app-players-list>
   </div>
   <div class="col-md-12">

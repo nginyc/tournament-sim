@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, SimpleChanges, Input } from '@angular/core';
 
 interface Player {
   _id: string;
@@ -24,27 +24,46 @@ class Ranking {
 }
 
 @Component({
-  selector: 'leaderboard',
+  selector: 'app-leaderboard',
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.css']
 })
-export class LeaderboardComponent implements OnInit, OnChanges {
+export class LeaderboardComponent implements OnInit {
 
   @Input()
-  matches: Match[];
+  set matches(matches: Match[]) {
+    this._updateRankings(matches);
+  }
 
-  rankings = [];
+  _rankings: Ranking[];
 
   constructor() { }
 
   ngOnInit() {
-
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.matches && !changes.matches.firstChange) {
-      this.updateRankings();
+  // Calculate W-L and rank of players based on matches
+  _updateRankings(matches: Match[]) {
+    // Remove matches with null players (due to deletion)
+    matches = matches.filter(x => {
+      return x.player1 != null && x.player2 != null;
+    });
+
+    const stats = this._getInitialStats(matches);
+
+    // For each match, update wins/losses
+    for (const match of matches) {
+      // If match has no winner yet, skip
+      if (!match.winner) {
+        continue;
+      }
+
+      this._changeWinLossWithWinner(stats, match.player1, match.winner);
+      this._changeWinLossWithWinner(stats, match.player2, match.winner);
     }
+
+    this._rankings = this._getRankingsArray(stats);
+    this._sortRanks(this._rankings);
   }
 
   // Assumption: if not match winner, is match loser
@@ -82,7 +101,7 @@ export class LeaderboardComponent implements OnInit, OnChanges {
     }
   }
 
-  _initializeStats(matches: Match[]): { [key: string]: Ranking } {
+  _getInitialStats(matches: Match[]): { [key: string]: Ranking } {
     // Populate initial stats with map of player_id -> stat
     const stats: { [key: string]: Ranking } = {};
     for (const match of matches) {
@@ -97,31 +116,4 @@ export class LeaderboardComponent implements OnInit, OnChanges {
 
     return stats;
   }
-
-  // Calculate W-L and rank of players based on matches
-  updateRankings() {
-    let matches = this.matches;
-
-    // Remove matches with null players (due to deletion)
-    matches = matches.filter(x => {
-      return x.player1 == null || x.player2 == null;
-    })
-
-    const stats = this._initializeStats(matches);
-
-    // For each match, update wins/losses
-    for (const match of matches) {
-      // If match has no winner yet, skip
-      if (!match.winner) {
-        continue;
-      }
-
-      this._changeWinLossWithWinner(stats, match.player1, match.winner);
-      this._changeWinLossWithWinner(stats, match.player2, match.winner);
-    }
-
-    this.rankings = this._getRankingsArray(stats);
-    this._sortRanks(this.rankings);
-  }
-
 }

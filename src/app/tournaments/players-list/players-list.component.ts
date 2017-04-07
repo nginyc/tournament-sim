@@ -1,59 +1,60 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { TournamentService } from '../tournament.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-players-list',
   templateUrl: './players-list.component.html',
-  styleUrls: ['./players-list.component.css']
+  styleUrls: ['./players-list.component.css'],
+  providers: [TournamentService]
 })
-
-export class PlayersListComponent implements OnInit, OnChanges {
-
-  isAdding = false;
-
-  deleteModalMessage = '';
-  deleteModalTitle = 'Confirm Delete?';
-  isDeleteModalShown = false;
-  playerForDeletion?;
-
-  @Input()
-  players: any[];
-
-  @Input()
-  selectedPlayerIds = [];
+export class PlayersListComponent implements OnInit {
 
   @Input()
   isSelectMode = false;
 
-  @Output()
-  onWantDeleteEvent = new EventEmitter();
+  @Input()
+  selectedPlayerIds: string[] = [];
 
   @Output()
-  onWantAddEvent = new EventEmitter();
+  selectedPlayerIdsChange = new EventEmitter<string[]>();
 
-  constructor() { }
+  @Output()
+  onDeletedEvent = new EventEmitter();
+
+  @Output()
+  onAddedEvent = new EventEmitter();
+
+  _isAdding = false;
+  _deleteModalMessage = '';
+  _deleteModalTitle = 'Confirm Delete?';
+  _isDeleteModalShown = false;
+  _playerForDeletion?: any;
+  _players: any[];
+
+  constructor(private tournamentService: TournamentService) { }
 
   ngOnInit() {
+    this.reload();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // If selected players or players have changed, re-initialize required properties
-    if (changes.selectedPlayerIds && !changes.selectedPlayerIds.firstChange) {
-      this.initializeSelectedPlayers(this.players, changes.selectedPlayerIds.currentValue);
-    }
+  reload() {
+    this.tournamentService
+      .getPlayers()
+      .then((players: any[]) => {
+        this._players = players;
+        this._initializePlayers(this._players);
+      });
+  }
 
-    if (changes.players && !changes.players.firstChange) {
-      this.initializeSelectedPlayers(changes.players.currentValue, this.selectedPlayerIds);
+  _initializePlayers(players: any[]) {
+    for (const player of players) {
+      if (this.selectedPlayerIds.indexOf(player._id) != -1) {
+        player.isSelected = true;
+      }
     }
   }
 
-  initializeSelectedPlayers(players: any[], selectedPlayerIds: string[]) {
-    // Reconcile with players array
-    for (let player of players) {
-      player.isSelected = (player._id in selectedPlayerIds);
-    }
-  }
-
-  onSelect(player) {
+  _onSelect(player) {
     // Only for select mode active
     if (!this.isSelectMode) {
       return;
@@ -62,42 +63,48 @@ export class PlayersListComponent implements OnInit, OnChanges {
     player.isSelected = !player.isSelected;
 
     // Update selected players array
-    if (player.isSelected) {
-      this.selectedPlayerIds.push(player._id);
+    if (player._id in this.selectedPlayerIds) {
+      this.selectedPlayerIds.splice(this.selectedPlayerIds.indexOf(player._id), 1); // delete
     } else {
-      this.selectedPlayerIds.splice(this.selectedPlayerIds.indexOf(player._id), 1);
+      this.selectedPlayerIds.push(player._id);
     }
+
+    this.selectedPlayerIdsChange.emit(this.selectedPlayerIds);
   }
 
-  onWantDelete(player) {
-    this.playerForDeletion = player;
-    this.isDeleteModalShown = true;
-    this.deleteModalMessage = `Are you sure you want to delete ${player.name}? This player will be removed from all tournaments!`;
+  _onWantDelete(player) {
+    this._playerForDeletion = player;
+    this._isDeleteModalShown = true;
+    this._deleteModalMessage = `Are you sure you want to delete ${player.name}? This player will be removed from all tournaments!`;
   }
 
-  onDeleteCancel() {
-    this.playerForDeletion = null;
-    this.isDeleteModalShown = false;
+  _onDeleteCancel() {
+    this._playerForDeletion = null;
+    this._isDeleteModalShown = false;
   }
 
-  onDeleteConfirm() {
-    this.onWantDeleteEvent.emit({
-      player_id: this.playerForDeletion._id
-    });
+  _onDeleteConfirm() {
+    this.tournamentService.deletePlayer(this._playerForDeletion._id)
+      .then((player) => {
+        // Remove from players array after deletion from database
+        this._players.splice(this._players.indexOf(player._id), 1);
 
-    this.playerForDeletion = null;
-    this.isDeleteModalShown = false;
+        this.onDeletedEvent.emit({
+          player_id: player._id
+        });
+
+        this._playerForDeletion = null;
+        this._isDeleteModalShown = false;
+      });
   }
 
-  onWantViewAdd() {
-    this.isAdding = true;
+  _onPlayerAdded({ player }) {
+    this._players.push(player);
+    this._isAdding = false;
   }
 
-  onWantAdd({ player }) {
-    this.isAdding = false;
-
-    this.onWantAddEvent.emit({
-      player: player
-    });
+  _onWantViewAdd() {
+    this._isAdding = true;
   }
+
 }

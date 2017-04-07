@@ -1,0 +1,10 @@
+<div class="h1" *ngIf="_tournament">{{ _tournament.name }}</div>
+<div class="row" *ngIf="_tournament">
+  <div class="col-md-6">
+    <app-matches-list [(matches)]="_tournament.matches">
+    </app-matches-list>
+  </div>
+  <div class="col-md-6 ">
+    <app-leaderboard [matches]="_tournament.matches"></app-leaderboard>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+:host >>> app-matches-list .h1, 
+:host >>> app-leaderboard .h1 {
+  font-size: 1.5em;
+}

@@ -1,4 +1,4 @@
-<h3>Leaderboard</h3>
+<div class="h1">Leaderboard</div>
 <table class="table">
   <thead>
     <tr>
@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let r of rankings">
+    <tr *ngFor="let r of _rankings">
       <th>{{r.rank}}</th>
       <td>{{r.player.name}}</td>
       <td>{{r.wins}}</td>

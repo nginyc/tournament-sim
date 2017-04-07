@@ -6,29 +6,27 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutes } from './app.routes';
 import { AppComponent } from './app.component';
 import { TournamentsListComponent } from './tournaments/tournaments-list/tournaments-list.component';
-import { TournamentStartPageComponent } from './tournaments/tournament-start-page/tournament-start-page.component';
 import { PlayersListComponent } from './tournaments/players-list/players-list.component';
 import { PlayerAddComponent } from './tournaments/player-add/player-add.component';
-import { TournamentsPageComponent } from './tournaments/tournaments-page/tournaments-page.component';
 import { TournamentAddComponent } from './tournaments/tournament-add/tournament-add.component';
-import { TournamentPlayPageComponent } from './tournaments/tournament-play-page/tournament-play-page.component';
 import { MatchesListComponent } from './tournaments/matches-list/matches-list.component';
+import { TournamentPlayComponent } from './tournaments/tournament-play/tournament-play.component';
 import { LeaderboardComponent } from './tournaments/leaderboard/leaderboard.component';
 import { ConfirmationModalComponent } from './templates/confirmation-modal/confirmation-modal.component';
+import { SideNavComponent } from './templates/side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TournamentsListComponent,
-    TournamentStartPageComponent,
     PlayersListComponent,
     PlayerAddComponent,
-    TournamentsPageComponent,
     TournamentAddComponent,
-    TournamentPlayPageComponent,
     MatchesListComponent,
     LeaderboardComponent,
-    ConfirmationModalComponent
+    TournamentPlayComponent,
+    ConfirmationModalComponent,
+    SideNavComponent
   ],
   imports: [
     RouterModule.forRoot(AppRoutes),

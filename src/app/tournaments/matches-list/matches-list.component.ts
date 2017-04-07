@@ -1,35 +1,44 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { TournamentService } from '../tournament.service';
+import { Router } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+interface Match {
+  _id: string;
+  winner: any;
+  player1: any;
+  player2: any;
+  isCurrent?: boolean;
+  isOver?: boolean;
+}
 
 @Component({
   selector: 'app-matches-list',
   templateUrl: './matches-list.component.html',
-  styleUrls: ['./matches-list.component.css']
+  styleUrls: ['./matches-list.component.css'],
+  providers: [TournamentService]
 })
-
-export class MatchesListComponent implements OnInit, OnChanges {
-
-  @Input()
-  matches: any[];
+export class MatchesListComponent implements OnInit {
 
   @Output()
-  onSelectWinnerEvent = new EventEmitter();
+  matchesChange = new EventEmitter<Match[]>();
 
-  constructor() { }
+  @Input()
+  set matches(matches: Match[]) {
+    this._matches = Array.from(matches);
+    this._initializeMatches(this._matches);
+  }
+
+  _matches: Match[];
+
+  constructor(private tournamentService: TournamentService) { }
 
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // If matches have changed, re-initialize required properties
-    if (changes.matches && !changes.matches.firstChange) {
-      this.initializeMatches(changes.matches.currentValue);
-    }
-  }
-
-  initializeMatches(matches: any[]) {
+  _initializeMatches(matches: Match[]) {
     // Set the first incomplete match as current
     // At the same time, set isOver and isWinner properties of matches before current
-    for (let match of matches) {
+    for (const match of matches) {
       if (match.winner == null) {
         match.isCurrent = true;
         break;
@@ -47,13 +56,17 @@ export class MatchesListComponent implements OnInit, OnChanges {
     }
   }
 
-  onSelect(match, winner) {
-    if (!match.isCurrent) return;
+  _onSelect(match: Match, winner) {
+    if (!match.isCurrent) {
+      return;
+    }
 
-    this.onSelectWinnerEvent.emit({
-      match_id: match._id,
-      winner_id: winner._id
+    this.tournamentService.updateMatch(match._id, {
+      winner: winner._id
+    }).then((updatedMatch) => {
+      // Replace updated match in local array
+      this._matches = this._matches.map(x => (x._id == updatedMatch._id) ? updatedMatch : x);
+      this.matchesChange.emit(this._matches);
     });
   }
-
 }

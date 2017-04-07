@@ -1,0 +1,32 @@
+>>> .text-red {
+  color: red;
+}
+
+>>> .h1 {
+  background-color: #1976D2;
+  font-size: 2em;
+  margin: 10px 0;
+  padding: 10px 20px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.05);
+  color: white;
+}
+
+>>> .h1 > [role="button"] {
+  float: right;
+  color: white;
+  transition: 0.2s opacity;
+}
+
+>>> .h1 > [role="button"]:hover {
+  opacity: 0.8;
+}
+
+>>> .list-group > .list-group-item {
+  border: 0;
+  background-color: transparent;
+  transition: 0.2s background-color;
+}
+
+>>> .list-group > .list-group-item[role="button"]:hover {
+  background-color: rgba(158,158,158,0.2);
+}
