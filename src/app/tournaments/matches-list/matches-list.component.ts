@@ -9,6 +9,7 @@ interface Match {
   player2: any;
   isCurrent?: boolean;
   isOver?: boolean;
+  isInvalid?: boolean;
 }
 
 @Component({
@@ -36,9 +37,20 @@ export class MatchesListComponent implements OnInit {
   }
 
   _initializeMatches(matches: Match[]) {
+    // Mark invalid matches
+    for (const match of matches) {
+      if (match.player1 == null || match.player2 == null) {
+        match.isInvalid = true; // Any player has been deleted
+      }
+    }
+
     // Set the first incomplete match as current
     // At the same time, set isOver and isWinner properties of matches before current
     for (const match of matches) {
+      if (match.isInvalid) {
+        continue;
+      }
+
       if (match.winner == null) {
         match.isCurrent = true;
         break;

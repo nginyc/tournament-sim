@@ -20,6 +20,5 @@
   </li>
 </ul>
 
-<app-confirmation-modal [message]="_deleteModalMessage" [title]="_deleteModalTitle" [isShown]="_isDeleteModalShown" (onCancelEvent)="_onDeleteCancel($event)"
-  (onConfirmEvent)="_onDeleteConfirm($event)">
+<app-confirmation-modal (onCancelEvent)="_onDeleteCancel($event)" (onConfirmEvent)="_onDeleteConfirm($event)">
 </app-confirmation-modal>

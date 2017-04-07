@@ -27,6 +27,18 @@
   transition: 0.2s background-color;
 }
 
->>> .list-group > .list-group-item[role="button"]:hover {
+>>> .list-group > .list-group-item[role="button"]:not(.active):hover {
   background-color: rgba(158,158,158,0.2);
+}
+
+>>> .list-group > .list-group-item.active {
+  background-color: #FFA000;
+}
+
+>>> .btn {
+  border-radius: 0;
+}
+
+>>> .btn.btn-primary {
+  background-color: #1976D2;
 }

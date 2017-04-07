@@ -55,21 +55,14 @@ router.get("/:id", (req: {}, res: {}) => {
 router.delete("/:id", (req: {}, res: {}) => {
   const _id = req.params.id;
 
-  Player.findOne({ _id: _id }, (err: {}, player: {}) => {
+  Player.findOneAndRemove({ _id: _id }, {}, (err: {}, player: {}) => {
     if (err) {
-      handleError(res, err.message, "No such player");
+      handleError(res, "Failed to delete player: " + err.message);
       return;
     }
 
-    player.remove((err: {}) => {
-      if (err) {
-        handleError(res, "Failed to delete player: " + err.message);
-        return;
-      }
-
-      res.status(200)
-        .json(player);
-    });
+    res.status(200)
+      .json(player);
   });
 });
 

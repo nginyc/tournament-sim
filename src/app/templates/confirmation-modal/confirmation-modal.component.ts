@@ -1,20 +1,14 @@
-import { OnChanges, EventEmitter, Input, Component, OnInit, Output, SimpleChanges } from '@angular/core';
+import { EventEmitter, Input, Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   styleUrls: ['./confirmation-modal.component.css']
 })
-export class ConfirmationModalComponent implements OnInit, OnChanges {
+export class ConfirmationModalComponent implements OnInit {
 
-  @Input()
-  title: string;
-
-  @Input()
-  message: string;
-
-  @Input()
-  isShown: boolean;
+  _title = '';
+  _message = '';
 
   @Output()
   onConfirmEvent = new EventEmitter();
@@ -27,30 +21,24 @@ export class ConfirmationModalComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-    this.$modal = window['$']('confirmation-modal>.modal');
-    this.updateModal();
+    this.$modal = window['$']('app-confirmation-modal>.modal');
   }
 
-  onConfirm($event) {
+  _onConfirm($event) {
     this.onConfirmEvent.emit({});
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isShown && !changes.isShown.firstChange) {
-      this.updateModal();
-    }
+  show(title: string, message: string) {
+    this._title = title;
+    this._message = message;
+    this.$modal.modal('show');
   }
 
-  updateModal() {
-    // Show/hide modal depending on value of isShown
-    if (this.isShown) {
-      this.$modal.modal('show');
-    } else {
-      this.$modal.modal('hide');
-    }
+  hide() {
+    this.$modal.modal('hide');
   }
 
-  onCancel($event) {
+  _onCancel($event) {
     this.onCancelEvent.emit({});
   }
 }

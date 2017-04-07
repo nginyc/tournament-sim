@@ -1,5 +1,13 @@
+import { isBlockScopedBindingElement } from 'tslint/lib';
+import { ConfirmationModalComponent } from '../../templates/confirmation-modal/confirmation-modal.component';
 import { TournamentService } from '../tournament.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+
+interface Player {
+  _id: string;
+  isSelected?: boolean;
+  name: string;
+}
 
 @Component({
   selector: 'app-players-list',
@@ -24,12 +32,12 @@ export class PlayersListComponent implements OnInit {
   @Output()
   onAddedEvent = new EventEmitter();
 
+  _playerForDeletion?: Player;
+  _players: Player[];
   _isAdding = false;
-  _deleteModalMessage = '';
-  _deleteModalTitle = 'Confirm Delete?';
-  _isDeleteModalShown = false;
-  _playerForDeletion?: any;
-  _players: any[];
+
+  @ViewChild(ConfirmationModalComponent)
+  _deleteConfirmationModal: ConfirmationModalComponent;
 
   constructor(private tournamentService: TournamentService) { }
 
@@ -40,13 +48,13 @@ export class PlayersListComponent implements OnInit {
   reload() {
     this.tournamentService
       .getPlayers()
-      .then((players: any[]) => {
+      .then((players: Player[]) => {
         this._players = players;
         this._initializePlayers(this._players);
       });
   }
 
-  _initializePlayers(players: any[]) {
+  _initializePlayers(players: Player[]) {
     for (const player of players) {
       if (this.selectedPlayerIds.indexOf(player._id) != -1) {
         player.isSelected = true;
@@ -54,7 +62,7 @@ export class PlayersListComponent implements OnInit {
     }
   }
 
-  _onSelect(player) {
+  _onSelect(player: Player) {
     // Only for select mode active
     if (!this.isSelectMode) {
       return;
@@ -63,7 +71,7 @@ export class PlayersListComponent implements OnInit {
     player.isSelected = !player.isSelected;
 
     // Update selected players array
-    if (player._id in this.selectedPlayerIds) {
+    if (this.selectedPlayerIds.indexOf(player._id) != -1) {
       this.selectedPlayerIds.splice(this.selectedPlayerIds.indexOf(player._id), 1); // delete
     } else {
       this.selectedPlayerIds.push(player._id);
@@ -72,29 +80,29 @@ export class PlayersListComponent implements OnInit {
     this.selectedPlayerIdsChange.emit(this.selectedPlayerIds);
   }
 
-  _onWantDelete(player) {
+  _onWantDelete(player: Player) {
     this._playerForDeletion = player;
-    this._isDeleteModalShown = true;
-    this._deleteModalMessage = `Are you sure you want to delete ${player.name}? This player will be removed from all tournaments!`;
+    this._deleteConfirmationModal.show('Confirm Delete?',
+      `Are you sure you want to delete ${player.name}? This player will be removed from all tournaments!`);
   }
 
   _onDeleteCancel() {
     this._playerForDeletion = null;
-    this._isDeleteModalShown = false;
+    this._deleteConfirmationModal.hide();
   }
 
   _onDeleteConfirm() {
     this.tournamentService.deletePlayer(this._playerForDeletion._id)
       .then((player) => {
         // Remove from players array after deletion from database
-        this._players.splice(this._players.indexOf(player._id), 1);
+        this._players = this._players.filter(x => x._id != player._id);
 
         this.onDeletedEvent.emit({
           player_id: player._id
         });
 
         this._playerForDeletion = null;
-        this._isDeleteModalShown = false;
+        this._deleteConfirmationModal.hide();
       });
   }
 

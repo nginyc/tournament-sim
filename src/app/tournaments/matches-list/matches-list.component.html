@@ -1,14 +1,15 @@
 <div class="h1">Matches</div>
 <ul class="list-group">
-  <li *ngFor="let m of _matches" class="list-group-item text-center row match" [class.active]="m.isCurrent" [class.over]="m.isOver">
-    <div class="col-xs-4" [attr.role]="m.isCurrent ? 'button' : ''" (click)="_onSelect(m, m.player1)">
-      <span class="win-icon right glyphicon glyphicon-king" [class.invisible]="!m.player1.isWinner"></span>
+  <li *ngFor="let m of _matches" class="list-group-item text-center row match" [class.active]="m.isCurrent" [class.over]="m.isOver"
+    [class.hidden]="m.isInvalid">
+    <div class="side col-xs-5" *ngIf="!m.isInvalid" [attr.role]="m.isCurrent ? 'button' : ''" (click)="_onSelect(m, m.player1)">
+      <span class="win-icon right glyphicon glyphicon-king" [class.shown]="m.player1.isWinner"></span>
       <span class="name">{{ m.player1.name }}</span>
     </div>
-    <div class="col-xs-4 vs">vs</div>
-    <div class="col-xs-4" [attr.role]="m.isCurrent ? 'button' : ''" (click)="_onSelect(m, m.player2)">
+    <div class="vs col-xs-2">vs</div>
+    <div class="side col-xs-5" *ngIf="!m.isInvalid" [attr.role]="m.isCurrent ? 'button' : ''" (click)="_onSelect(m, m.player2)">
       <span class="name">{{ m.player2.name }}</span>
-      <span class="win-icon left glyphicon glyphicon-king" [class.invisible]="!m.player2.isWinner"></span>
+      <span class="win-icon left glyphicon glyphicon-king" [class.shown]="m.player2.isWinner"></span>
     </div>
   </li>
 </ul>
