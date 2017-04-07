@@ -1,10 +1,12 @@
 <h2>{{ tournament.name }}</h2>
 <div class="row">
   <div class="col-md-6">
-    <matches-list [matches]="tournament.matches" (onSelectWinnerEvent)="onSelectMatchWinner($event)"></matches-list>
+    <app-matches-list [matches]="tournament.matches" (onSelectWinnerEvent)="onSelectMatchWinner($event)">
+    </app-matches-list>
   </div>
   <div class="col-md-6">
-    <leaderboard [matches]="tournament.matches"></leaderboard>
+    <app-leaderboard [matches]="tournament.matches">
+    </app-leaderboard>
   </div>
   <div class="col-md-12">
     <button class="btn btn-primary" (click)="onWantViewTournaments()">Back to Tournaments</button>

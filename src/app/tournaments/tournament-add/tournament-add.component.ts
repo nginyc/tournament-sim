@@ -1,24 +1,24 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'tournament-add',
+  selector: 'app-tournament-add',
   templateUrl: './tournament-add.component.html',
   styleUrls: ['./tournament-add.component.css']
 })
 
 export class TournamentAddComponent implements OnInit {
 
-  static readonly TYPES = ["ROUND_ROBIN"];
+  static readonly TYPES = ['ROUND_ROBIN'];
 
   @Output()
   onWantAddTournamentEvent = new EventEmitter();
 
   @Output()
   onWantDeletePlayerEvent = new EventEmitter();
-  
+
   @Output()
   onWantAddPlayerEvent = new EventEmitter();
-  
+
   @Input()
   players: any[];
 
@@ -29,7 +29,7 @@ export class TournamentAddComponent implements OnInit {
   ngOnInit() {
     this.reload();
   }
-  
+
   reload() {
     this.tournament = {
       players: [],
@@ -42,14 +42,14 @@ export class TournamentAddComponent implements OnInit {
       tournament: this.tournament
     });
   }
-  
-  onWantAddPlayer({player}) {
+
+  onWantAddPlayer({ player }) {
     this.onWantAddPlayerEvent.emit({
       player: player
     });
   }
-  
-  onWantDeletePlayer({player_id}) {
+
+  onWantDeletePlayer({ player_id }) {
     this.onWantDeletePlayerEvent.emit({
       player_id: player_id
     });

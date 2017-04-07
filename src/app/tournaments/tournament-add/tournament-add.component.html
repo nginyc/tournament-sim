@@ -10,9 +10,11 @@
     </div>
   </div>
   <div class="col-md-6">
-    <players-list [players]="players" [selectedPlayerIds]="tournament.players" (onWantAddEvent)="onWantAddPlayer($event)" (onWantDeleteEvent)="onWantDeletePlayer($event)" [isSelectMode]="true"></players-list>
+    <app-players-list [players]="players" [selectedPlayerIds]="tournament.players" (onWantAddEvent)="onWantAddPlayer($event)"
+      (onWantDeleteEvent)="onWantDeletePlayer($event)" [isSelectMode]="true">
+    </app-players-list>
   </div>
   <div class="col-md-12">
-     <button type="submit" class="btn btn-primary">Start Tournament</button>
+    <button type="submit" class="btn btn-primary">Start Tournament</button>
   </div>
 </form>

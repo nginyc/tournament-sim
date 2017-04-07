@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'player-add',
+  selector: 'app-player-add',
   templateUrl: './player-add.component.html',
   styleUrls: ['./player-add.component.css']
 })

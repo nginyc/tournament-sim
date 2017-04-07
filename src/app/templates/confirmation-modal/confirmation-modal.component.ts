@@ -1,7 +1,7 @@
 import { OnChanges, EventEmitter, Input, Component, OnInit, Output, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'confirmation-modal',
+  selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   styleUrls: ['./confirmation-modal.component.css']
 })

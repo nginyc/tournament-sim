@@ -1,12 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'tournaments-list',
+  selector: 'app-tournaments-list',
   templateUrl: './tournaments-list.component.html',
   styleUrls: ['./tournaments-list.component.css']
 })
-
 export class TournamentsListComponent implements OnInit {
 
   @Input()
@@ -18,7 +17,7 @@ export class TournamentsListComponent implements OnInit {
   }
 
   onWantAdd() {
-    this.router.navigate(["/tournament/start"]);
+    this.router.navigate(['/tournament/start']);
   }
 
   onSelect(tournament) {

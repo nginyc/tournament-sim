@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'matches-list',
+  selector: 'app-matches-list',
   templateUrl: './matches-list.component.html',
   styleUrls: ['./matches-list.component.css']
 })

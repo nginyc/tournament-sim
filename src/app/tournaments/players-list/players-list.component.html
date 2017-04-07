@@ -10,10 +10,11 @@
   </li>
 
   <li class="list-group-item" *ngIf="isAdding">
-    <player-add (onWantAddEvent)="onWantAdd($event)">
-    </player-add>
+    <app-player-add (onWantAddEvent)="onWantAdd($event)">
+    </app-player-add>
   </li>
 </ul>
 
-<confirmation-modal [message]="deleteModalMessage" [title]="deleteModalTitle" [isShown]="isDeleteModalShown" (onCancelEvent)="onDeleteCancel($event)"
-  (onConfirmEvent)="onDeleteConfirm($event)"></confirmation-modal>
+<app-confirmation-modal [message]="deleteModalMessage" [title]="deleteModalTitle" [isShown]="isDeleteModalShown" (onCancelEvent)="onDeleteCancel($event)"
+  (onConfirmEvent)="onDeleteConfirm($event)">
+</app-confirmation-modal>

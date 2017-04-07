@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TournamentService } from "../tournament.service";
+import { TournamentService } from '../tournament.service';
 
 @Component({
-  selector: 'tournaments-page',
+  selector: 'app-tournaments-page',
   templateUrl: './tournaments-page.component.html',
   styleUrls: ['./tournaments-page.component.css'],
   providers: [TournamentService]
