@@ -1,4 +1,3 @@
-import { isBlockScopedBindingElement } from 'tslint/lib';
 import { ConfirmationModalComponent } from '../../templates/confirmation-modal/confirmation-modal.component';
 import { TournamentService } from '../tournament.service';
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
