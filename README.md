@@ -1,6 +1,6 @@
 # MEAN Tournament Simulator
 
-A barely functional prototype of tournament simulator on the MongoDB - ExpressJS - AngularJS - NodeJS stack, a by-product from my learning process as I try to put the following technologies together. A deployed version is available at https://tournament-sim.herokuapp.com/tournaments/.
+A barely functional prototype of tournament simulator on the MongoDB - ExpressJS - AngularJS - NodeJS stack, a by-product from my learning process as I try to put the following technologies together. 
 
 Technologies used:
 
