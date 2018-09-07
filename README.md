@@ -2,6 +2,8 @@
 
 A barely functional prototype of tournament simulator on the MongoDB - ExpressJS - AngularJS - NodeJS stack, a by-product from my learning process as I try to put the following technologies together. 
 
+![Screenshot](./screenshot.png)
+
 Technologies used:
 
 - [NodeJS + NPM](https://nodejs.org/en/) as the ecosystem
